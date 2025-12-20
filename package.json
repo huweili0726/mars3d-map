@@ -1,0 +1,43 @@
+{
+  "name": "mars3d-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@icon-park/svg": "^1.4.2",
+    "@turf/turf": "^7.2.0",
+    "axios": "^1.10.0",
+    "font-awesome": "^4.7.0",
+    "mapv": "^2.0.62",
+    "mars3d": "~3.10.0",
+    "mars3d-cesium": "~1.135.0",
+    "mars3d-echarts": "~3.10.0",
+    "mars3d-heatmap": "~3.10.0",
+    "mars3d-mapv": "~3.10.0",
+    "mars3d-space": "~3.10.0",
+    "mars3d-tdt": "~3.10.0",
+    "nprogress": "^0.2.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "consola": "^3.4.2",
+    "less": "^4.3.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11",
+    "vite-plugin-mars3d": "^4.2.2",
+    "vue-tsc": "^3.1.1"
+  }
+}
