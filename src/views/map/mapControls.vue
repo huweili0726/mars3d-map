@@ -13,6 +13,7 @@
       <button @click="handleMovePoint4" class="control-btn">移动无人机1</button>
       <button @click="handleMovePoint5" class="control-btn">移动无人机2</button>
       <button @click="handleMovePoint6" class="control-btn">回放无人机轨迹</button>
+      <button @click="handleMovePoint7" class="control-btn">圆锥体</button>
     </div>
   </div>
 
@@ -59,6 +60,7 @@ import { useMapStore } from '@/stores/modules/mapStore';
 import { setPoint } from '@/components/mars3dMap/ts/setPoint';
 import { playback } from '@/components/mars3dMap/ts/playback';
 import { move } from '@/components/mars3dMap/ts/move';
+import { geometryConfig } from '@/components/mars3dMap/ts/geometry';
 
 const mapStore = useMapStore();
 const graphicId = ref('1'); // 默认值设为1，对应原来的车
@@ -258,6 +260,23 @@ const handleMovePoint6 = () => {
   playbackDroneRoute(`${process.env.BASE_URL}/glb/drone.glb`, routeArr2); // 回放无人机2轨迹
 }
 
+const handleMovePoint7 = () => {
+  setCone({
+    id: 'cone-1',
+    lng: 117.228433,
+    lat: 31.723159,
+    height: 0,
+    heading: 47.5,
+    pitch: 50,
+  })
+
+  updateCone({
+    id: 'cone-1',
+    heading: 47.5,
+    pitch: 10,
+  })
+}
+
 // 圆圈控制处理函数
 const handleToggleCircle = (circleId: string) => {
   toggleCircle(circleId);
@@ -289,6 +308,11 @@ const {
   hideAllCircles,
   toggleCircle
 } = setCover();
+
+const {
+  setCone,
+  updateCone
+} = geometryConfig();
 </script>
 
 <style scoped>
