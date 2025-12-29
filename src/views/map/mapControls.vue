@@ -14,6 +14,8 @@
       <button @click="handleMovePoint5" class="control-btn">移动无人机2</button>
       <button @click="handleMovePoint6" class="control-btn">回放无人机轨迹</button>
       <button @click="handleMovePoint7" class="control-btn">圆锥体</button>
+      <button @click="pauseConeUpdate" class="control-btn">暂停圆锥体更新</button>
+      <button @click="resumeConeUpdate" class="control-btn">继续圆锥体更新</button>
     </div>
   </div>
 
@@ -344,6 +346,16 @@ const stopConeUpdateTimer = () => {
     clearInterval(coneTimer);
     coneTimer = null;
   }
+};
+
+// 暂停圆锥体更新（暂停定时器）
+const pauseConeUpdate = () => {
+  stopConeUpdateTimer();
+};
+
+// 继续圆锥体更新（继续定时器）
+const resumeConeUpdate = () => {
+  startConeUpdateTimer();
 };
 // 组件卸载时清除定时器
 onUnmounted(() => {

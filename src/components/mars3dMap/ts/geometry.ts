@@ -91,6 +91,7 @@ export function geometryConfig() {
       return
     }
     // conicSensor.position = new mars3d.LngLatPoint(lng, lat, height || 0)
+
     conicSensor.setStyle({
       heading: heading || 0,
       pitch: pitch || 40,
