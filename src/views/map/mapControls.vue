@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { setCover } from '@/components/mars3dMap/ts/setCover'
 import { useMapStore } from '@/stores/modules/mapStore';
 import { setPoint } from '@/components/mars3dMap/ts/setPoint';
@@ -270,11 +270,7 @@ const handleMovePoint7 = () => {
     pitch: 50,
   })
 
-  updateCone({
-    id: 'cone-1',
-    heading: 47.5,
-    pitch: 10,
-  })
+  startConeUpdateTimer();
 }
 
 // 圆圈控制处理函数
@@ -309,10 +305,50 @@ const {
   toggleCircle
 } = setCover();
 
-const {
-  setCone,
-  updateCone
-} = geometryConfig();
+const { setCone, updateCone } = geometryConfig();
+
+// 定时器变量
+let coneTimer: number | null = null;
+
+// 俯仰角变化的角度列表
+const pitchValues = [10, 20, 30, 40, 50, 60, 70, 80, 70, 60, 50, 40, 30, 20];
+let currentPitchIndex = 0;
+
+// 启动圆锥体俯仰角更新定时器
+const startConeUpdateTimer = () => {
+  // 先清除可能存在的旧定时器
+  if (coneTimer) {
+    clearInterval(coneTimer);
+  }
+  
+  // 设置新定时器，每秒更新一次俯仰角
+  coneTimer = window.setInterval(() => {
+    // 获取当前俯仰角
+    const currentPitch = pitchValues[currentPitchIndex];
+    
+    // 更新圆锥体
+    updateCone({
+      id: 'cone-1',
+      heading: 47.5,
+      pitch: currentPitch,
+    });
+    
+    // 更新索引，循环使用角度列表
+    currentPitchIndex = (currentPitchIndex + 1) % pitchValues.length;
+  }, 1000);
+};
+
+// 停止圆锥体俯仰角更新定时器
+const stopConeUpdateTimer = () => {
+  if (coneTimer) {
+    clearInterval(coneTimer);
+    coneTimer = null;
+  }
+};
+// 组件卸载时清除定时器
+onUnmounted(() => {
+  stopConeUpdateTimer();
+});
 </script>
 
 <style scoped>
