@@ -33,7 +33,10 @@ const initMars3d = async () => {
   let mapOptions
   if (props.url) {
     // 存在url时才读取
-    mapOptions = await mars3d.Util.fetchJson({ url: props.url })
+    const response = await fetch(props.url)
+    const jsonStr = await response.text()
+    const cleanStr = jsonStr.replace(/^\uFEFF/, '') // 移除 BOM 头
+    mapOptions = JSON.parse(cleanStr)
   }
 
   if (props.options) {
