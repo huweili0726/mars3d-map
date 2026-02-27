@@ -76,6 +76,33 @@ const initMars3d = async () => {
     map.scene.globe.showGroundAtmosphere = false
   }
 
+  // 监听相机移动事件，手动限制俯仰角
+  map.viewer.camera.changed.addEventListener(() => {
+    const pitch = map.viewer.camera.pitch
+    const minPitch = -Math.PI / 2 // -90度
+    const maxPitch = -Math.PI / 9 // -20度
+    
+    if (pitch < minPitch) {
+      map.viewer.camera.setView({
+        destination: map.viewer.camera.position,
+        orientation: {
+          heading: map.viewer.camera.heading,
+          pitch: minPitch,
+          roll: map.viewer.camera.roll
+        }
+      })
+    } else if (pitch > maxPitch) {
+      map.viewer.camera.setView({
+        destination: map.viewer.camera.position,
+        orientation: {
+          heading: map.viewer.camera.heading,
+          pitch: maxPitch,
+          roll: map.viewer.camera.roll
+        }
+      })
+    }
+  })
+
   // 二三维切换不用动画
   if (map.viewer.sceneModePicker) {
     map.viewer.sceneModePicker.viewModel.duration = 0.0
