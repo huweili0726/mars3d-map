@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import * as mars3d from "mars3d"
+import * as Cesium from 'mars3d-cesium'
 import { computed, onUnmounted, onMounted, toRaw } from "vue"
 
 const props = withDefaults(
@@ -76,32 +77,11 @@ const initMars3d = async () => {
     map.scene.globe.showGroundAtmosphere = false
   }
 
-  // 监听相机移动事件，手动限制俯仰角
-  map.viewer.camera.changed.addEventListener(() => {
-    const pitch = map.viewer.camera.pitch
-    const minPitch = -Math.PI / 2 // -90度
-    const maxPitch = -Math.PI / 9 // -20度
-    
-    if (pitch < minPitch) {
-      map.viewer.camera.setView({
-        destination: map.viewer.camera.position,
-        orientation: {
-          heading: map.viewer.camera.heading,
-          pitch: minPitch,
-          roll: map.viewer.camera.roll
-        }
-      })
-    } else if (pitch > maxPitch) {
-      map.viewer.camera.setView({
-        destination: map.viewer.camera.position,
-        orientation: {
-          heading: map.viewer.camera.heading,
-          pitch: maxPitch,
-          roll: map.viewer.camera.roll
-        }
-      })
-    }
-  })
+  const cameraController = map.viewer.scene.screenSpaceCameraController;
+// const maxPitch = Cesium.Math.toRadians(-20);
+  cameraController.maximumTiltAngle = 1; // -20°（弧度）
+//   cameraController.enableTilt = true; // 启用俯仰功能
+// cameraController.tiltEventTypes = [Cesium.CameraEventType.MIDDLE_DRAG]; // 仅中键拖拽触发俯仰
 
   // 二三维切换不用动画
   if (map.viewer.sceneModePicker) {
